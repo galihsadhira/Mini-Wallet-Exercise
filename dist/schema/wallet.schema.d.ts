@@ -21,27 +21,22 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { CombinedModel } from './common/types/combined-model.type';
-import { Wallet, WalletDocument } from './schema/wallet.schema';
-import { AuthService } from './auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { TransactionDocument } from './schema/transaction.schema';
-export declare class AppService {
-    private readonly authService;
-    private readonly jwtService;
-    private readonly walletModel;
-    private readonly transactionModel;
-    constructor(authService: AuthService, jwtService: JwtService, walletModel: CombinedModel<WalletDocument>, transactionModel: CombinedModel<TransactionDocument>);
-    getHello(): string;
-    get wallet(): CombinedModel<WalletDocument>;
-    get transaction(): CombinedModel<TransactionDocument>;
-    intialize(customer_xid: any): Promise<{
-        token: string;
-    }>;
-    validate(token: string): Promise<any>;
-    getWallet(authorization: string): Promise<import("mongoose").Document<unknown, {}, WalletDocument> & Wallet & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
+import { Document, Schema as MongooseSchema } from 'mongoose';
+export declare class Wallet {
+    _id: MongooseSchema.Types.ObjectId;
+    id: MongooseSchema.Types.UUID;
+    owned_by: MongooseSchema.Types.UUID;
+    status?: string;
+    enabled_at?: Date;
+    disabled_at?: Date;
+    balance: number;
+    created_at?: Date;
+    updated_at?: Date;
 }
+export declare type WalletDocument = Wallet & Document;
+export declare const WalletSchema: MongooseSchema<Wallet, import("mongoose").Model<Wallet, any, any, any, Document<unknown, any, Wallet> & Wallet & Required<{
+    _id: MongooseSchema.Types.ObjectId;
+}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Wallet, Document<unknown, {}, import("mongoose").FlatRecord<Wallet>> & import("mongoose").FlatRecord<Wallet> & Required<{
+    _id: MongooseSchema.Types.ObjectId;
+}>>;

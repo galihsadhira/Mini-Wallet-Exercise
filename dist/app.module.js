@@ -10,11 +10,36 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const auth_module_1 = require("./auth/auth.module");
+const wallet_schema_1 = require("./schema/wallet.schema");
+const transaction_schema_1 = require("./schema/transaction.schema");
+const jwt_1 = require("@nestjs/jwt");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
+        imports: [
+            mongoose_1.MongooseModule.forRoot(`mongodb+srv://galihsadhira:5LXAhy43cYS6RjcV@miniwallet.mcldjkd.mongodb.net/`),
+            mongoose_1.MongooseModule.forFeatureAsync([
+                {
+                    name: wallet_schema_1.Wallet.name,
+                    useFactory: () => {
+                        const schema = wallet_schema_1.WalletSchema;
+                        return schema;
+                    },
+                },
+                {
+                    name: transaction_schema_1.Transaction.name,
+                    useFactory: () => {
+                        const schema = transaction_schema_1.TransactionSchema;
+                        return schema;
+                    },
+                },
+            ]),
+            auth_module_1.AuthModule,
+            jwt_1.JwtModule,
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

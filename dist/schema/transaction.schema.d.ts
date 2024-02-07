@@ -21,27 +21,22 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { CombinedModel } from './common/types/combined-model.type';
-import { Wallet, WalletDocument } from './schema/wallet.schema';
-import { AuthService } from './auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { TransactionDocument } from './schema/transaction.schema';
-export declare class AppService {
-    private readonly authService;
-    private readonly jwtService;
-    private readonly walletModel;
-    private readonly transactionModel;
-    constructor(authService: AuthService, jwtService: JwtService, walletModel: CombinedModel<WalletDocument>, transactionModel: CombinedModel<TransactionDocument>);
-    getHello(): string;
-    get wallet(): CombinedModel<WalletDocument>;
-    get transaction(): CombinedModel<TransactionDocument>;
-    intialize(customer_xid: any): Promise<{
-        token: string;
-    }>;
-    validate(token: string): Promise<any>;
-    getWallet(authorization: string): Promise<import("mongoose").Document<unknown, {}, WalletDocument> & Wallet & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
+import { Document, Schema as MongooseSchema } from 'mongoose';
+export declare class Transaction {
+    _id: MongooseSchema.Types.ObjectId;
+    reference_id: MongooseSchema.Types.UUID;
+    transacted_by: MongooseSchema.Types.UUID;
+    transacted_at?: Date;
+    amount: number;
+    status: string;
+    type: string;
+    created_at?: Date;
+    updated_at?: Date;
 }
+export declare type TransactionDocument = Transaction & Document;
+export declare const TransactionSchema: MongooseSchema<Transaction, import("mongoose").Model<Transaction, any, any, any, Document<unknown, any, Transaction> & Transaction & Required<{
+    _id: MongooseSchema.Types.ObjectId;
+}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Transaction, Document<unknown, {}, import("mongoose").FlatRecord<Transaction>> & import("mongoose").FlatRecord<Transaction> & Required<{
+    _id: MongooseSchema.Types.ObjectId;
+}>>;
